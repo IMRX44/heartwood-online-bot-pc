@@ -1,0 +1,57 @@
+# ---------------------------------------------------------------------------
+# Heartwood Online Bot - configuration
+# ---------------------------------------------------------------------------
+
+game:
+  window_title: "Heartwood Online"
+  process_name: "Heartwood.exe"
+
+# Which perception backends to enable. You can run vision-only (most portable)
+# or enable memory/network for speed and reliability.
+backends:
+  vision: true
+  memory: false      # requires offsets in memory/offsets.py
+  network: false     # requires protocol schema in network/parser.py
+
+vision:
+  capture_fps: 10
+  template_dir: "assets/templates"
+  match_threshold: 0.82
+  ocr_enabled: true
+  yolo_model: ""     # path to a trained .pt model; empty = template matching only
+
+input:
+  # Human-likeness knobs (anti-detection).
+  mouse_move_duration: [0.15, 0.45]   # min/max seconds per move
+  action_delay: [0.08, 0.25]          # random pause between actions
+  use_direct_input: true              # DirectInput keys for the game
+
+behavior:
+  # Periodic human-like breaks so timing isn't robotic.
+  break_every: [900, 1800]            # take a break every 15-30 min
+  break_duration: [30, 120]           # break lasts 30-120 s
+  panic_key: "f12"                    # emergency stop hotkey
+
+tasks:
+  fishing:
+    cast_key: "1"
+    bobber_template: "bobber.png"
+    splash_template: "splash.png"
+  gathering:
+    interact_key: "e"
+    resource_templates: ["ore_node.png", "tree.png", "herb.png"]
+  combat:
+    rotation: ["1", "2", "3"]          # ability hotkeys in priority order
+    hp_pot_key: "5"
+    hp_threshold: 0.35                 # use potion below 35% HP
+  crafting:
+    open_craft_key: "c"
+
+discord:
+  enabled: false
+  token: ""
+  channel_id: 0
+
+logging:
+  level: "INFO"
+  file: "logs/bot.log"

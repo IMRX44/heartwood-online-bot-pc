@@ -1,0 +1,22 @@
+# --- Vision ---
+opencv-python==4.10.0.84
+numpy==1.26.4
+mss==9.0.1               # fast screen capture
+pytesseract==0.3.13      # OCR (needs Tesseract binary installed)
+ultralytics==8.2.103     # YOLOv8 object detection (optional backend)
+
+# --- Memory (Windows) ---
+pymem==1.13.1            # ReadProcessMemory wrapper
+
+# --- Network ---
+scapy==2.5.0             # packet sniffing
+
+# --- Input ---
+pynput==1.7.7            # keyboard / mouse control
+pydirectinput==1.0.4     # DirectInput keys (games often ignore SendInput)
+
+# --- Infra ---
+PyYAML==6.0.2
+rich==13.8.1             # pretty logging / CLI
+pydantic==2.9.2          # typed config
+discord.py==2.4.0        # optional remote control

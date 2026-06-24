@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Logs & runtime
+logs/
+*.log
+
+# Models & captured assets (large/binary)
+*.pt
+*.onnx
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
