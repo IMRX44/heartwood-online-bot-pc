@@ -15,6 +15,10 @@ scapy==2.5.0             # packet sniffing
 pynput==1.7.7            # keyboard / mouse control
 pydirectinput==1.0.4     # DirectInput keys (games often ignore SendInput)
 
+# --- GUI ---
+PyQt6==6.7.1
+pygetwindow==0.0.9      # locate the game window
+
 # --- Infra ---
 PyYAML==6.0.2
 rich==13.8.1             # pretty logging / CLI

@@ -58,11 +58,27 @@ pure-vision (works on any client) or memory-assisted (faster, more reliable).
 ```bash
 python -m venv .venv && . .venv/Scripts/activate   # Windows
 pip install -r requirements.txt
+
+# GUI dashboard (recommended) - live preview, controls, stats, log
+python gui.py
+
+# or headless CLI:
 python main.py --task fish --count 100
-# or interactive:
-python main.py
-> fish until 100
+python main.py            # interactive shell: > fish until 100
 ```
+
+## Dashboard
+
+`python gui.py` opens a dark-themed PyQt6 control center:
+
+- **Live preview** of the game window with YOLO detection boxes drawn on top
+- **Command bar** (`fish until 100`) and a task picker with count/duration
+- **START / STOP / PANIC** controls (PANIC = instant abort)
+- **Live stats**: status, completed, runtime, completions-per-hour
+- **Live log** streamed straight from the bot
+- **Backend indicators** (vision / memory / network) that light up when active
+
+Tasks run on a worker thread, so the UI stays responsive while the bot works.
 
 ## Status / roadmap
 
