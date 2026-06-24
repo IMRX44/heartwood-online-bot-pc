@@ -3,12 +3,10 @@
 Layout:
   +-----------------------------------------------------------+
   |  HEARTWOOD BOT          [vision][memory][network] status  |
+  +-----------------------------------------------------------+
+  |  [BOT]  [SPEED HACK]   <- tab bar                         |
   +----------------------+------------------------------------+
-  |  Live screen preview  |  Control panel                    |
-  |  (with detection      |   - command input                 |
-  |   overlay boxes)      |   - task picker + count/duration  |
-  |                       |   - START / STOP / PANIC          |
-  |                       |  Stats: completed / runtime / rate|
+  |  Live screen preview  |  Control panel (bot or cheats)    |
   +----------------------+------------------------------------+
   |  Live log                                                 |
   +-----------------------------------------------------------+
@@ -23,13 +21,15 @@ from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import (
     QComboBox, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-    QMainWindow, QPushButton, QSpinBox, QTextEdit, QVBoxLayout, QWidget,
+    QMainWindow, QPushButton, QSpinBox, QTabWidget, QTextEdit,
+    QVBoxLayout, QWidget,
 )
 
 from src.commands.interpreter import parse
 from src.core.bot import Bot
 from src.core.config import Config
 from src.gui import theme
+from src.gui.speed_tab import SpeedTab
 from src.gui.worker import QtLogHandler, TaskWorker
 from src.tasks import TASK_REGISTRY
 from src.utils.logger import get_logger
@@ -101,12 +101,34 @@ class Dashboard(QMainWindow):
 
         outer.addLayout(self._build_header())
 
+        # Tab bar: BOT | SPEED HACK
+        self.tabs = QTabWidget()
+        self.tabs.setStyleSheet(f"""
+            QTabBar::tab {{
+                background: {theme.BG_ALT}; border: 1px solid {theme.BORDER};
+                border-bottom: none; padding: 8px 20px; border-radius: 6px 6px 0 0;
+                color: {theme.TEXT_DIM};
+            }}
+            QTabBar::tab:selected {{ background: {theme.PANEL}; color: {theme.ACCENT}; font-weight: bold; }}
+            QTabWidget::pane {{ border: 1px solid {theme.BORDER}; border-radius: 0 8px 8px 8px; }}
+        """)
+
+        # Tab 0: Bot automation
+        bot_tab = QWidget()
+        bot_lay = QVBoxLayout(bot_tab)
+        bot_lay.setContentsMargins(0, 8, 0, 0)
         mid = QHBoxLayout()
         mid.setSpacing(12)
         mid.addWidget(self._build_preview(), stretch=3)
         mid.addWidget(self._build_controls(), stretch=2)
-        outer.addLayout(mid, stretch=3)
+        bot_lay.addLayout(mid)
+        self.tabs.addTab(bot_tab, "⚙  BOT")
 
+        # Tab 1: Speed Hack
+        self.speed_tab = SpeedTab(self.config.game.process_name)
+        self.tabs.addTab(self.speed_tab, "⚡  SPEED HACK")
+
+        outer.addWidget(self.tabs, stretch=3)
         outer.addWidget(self._build_log(), stretch=2)
 
     def _build_header(self) -> QHBoxLayout:
